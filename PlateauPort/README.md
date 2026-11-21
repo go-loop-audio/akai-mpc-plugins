@@ -48,10 +48,28 @@ Three pages, each row of four is one Q-Link group:
 
 `PARAMS.md` explains every parameter, including the quirks inherited from the Rack module (Hold fades over about 1 s; Clear is a switch: turn it on to empty the tank, off to re-arm).
 
+## Skin
+
+`skins/` holds a hand-written skin, and because it exists `build.py` copies it verbatim and does **not** run
+`gen_ui.py`. It is generated, not edited by hand: `ui.json` (layout) -> `tools/make_skin.py` -> `skins/` + `assets/`.
+The result is committed, so a normal build needs none of the tool's dependencies. To regenerate after editing
+`ui.json` or the art (needs Pillow, `rsvg-convert`, and `build/params.json` from `make sdk-test`):
+
+```
+python3 tools/make_skin.py --sdk /Users/simonbosley/Programming/GoLoopAudio/akai-mpc-plugins/mpc-plugin-builder-sdk-main
+```
+
+Look: Valley's panel grey, Rogan knobs from ValleyRackFree's artwork (`skin-art/rogan/`) in Valley's colour code
+(white levels, green filters, blue space, red modulation), "GLA Plateau" header and "Go Loop Audio" footer.
+**Clear is a normal switch** for now: turn it on to empty the tank, off to re-arm. A momentary version
+(`ResetOnGestureEnd` in the skin) was tried and did not work on the One+; it is parked for later, see `MOMENTARY` in `tools/make_skin.py`.
+
 ## Layout
 
 ```
 plugin.json, ui.json                  SDK manifest and touch-screen layout
+skins/, assets/, tools/make_skin.py    the generated skin, its source images, the generator (see Skin)
+skin-art/                             panel and knob artwork derived from ValleyRackFree
 src/PlateauPlugin.cpp                 the plugin; the only .cpp directly in src/ (the SDK compiles just those)
 src/engine/PlateauFx.{hpp,cpp}        host-neutral engine
 src/Plateau, src/dsp, src/utilities   Valley DSP (unchanged except PATCHES.md)
@@ -99,4 +117,4 @@ Measured on a PC, not an MPC: about 10 us per 128-frame block (0.35% of the 2.9 
 1. Run the build above, install on your MPC and listen.
 2. Check CPU on the device. The 32-bit MPCs are the tight case (the SDK suggests staying well under 15% per instance).
    If it is high, a `float` build of the DSP is the next lever.
-3. Check the touch-screen layout on the device and adjust `ui.json` (rebuild regenerates the skins).
+3. Check the touch-screen skin on the device (see Skin below).

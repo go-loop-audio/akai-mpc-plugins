@@ -37,3 +37,10 @@ This is not legal advice.
 The plugin is built with the MPC Plugin SDK (inMusic / Akai Professional, MIT licence). Its header-only
 framework (`framework/mpc_plugin.h` and friends) is compiled into the plugin binary, so keep the SDK's
 `LICENSE` with any binary you distribute. The SDK is not copied into this repository.
+
+## Artwork
+
+`skin-art/` and the knob and background images in `assets/` and `skins/` are derived from the panel and Rogan
+knob artwork in ValleyRackFree (Valley Audio Soft, Dale Johnson, GPL-3.0-or-later; the repository carries no
+separate artwork licence). The "Valley" wordmark is replaced by "Go Loop Audio". The wordmark and background
+text are set in Inter Medium (SIL Open Font License 1.1) and converted to images, so no font is shipped.

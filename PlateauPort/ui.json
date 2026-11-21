@@ -1,43 +1,104 @@
 {
-  "kit": "cyan",
+  "kit": "amber",
   "qlinkGroups": "rows",
+  "style": {
+    "background": "ff282828",
+    "accent": "ffd9d9d9",
+    "text": "ffffffff",
+    "muted": "ff9a9a9c"
+  },
+  "knobImage": "knob_white.png",
+  "knobFrames": 127,
   "pages": [
     {
       "name": "MAIN",
       "controls": [
-        { "param": "Size",      "widget": "knob" },
-        { "param": "Decay",     "widget": "knob" },
-        { "param": "Diffusion", "widget": "knob" },
-        { "param": "Pre-delay", "widget": "knob" },
-
-        { "param": "Dry",       "widget": "fader" },
-        { "param": "Wet",       "widget": "fader" },
-        { "param": "Hold",      "widget": "switch" },
-        { "param": "Clear",     "widget": "switch" }
-      ]
+        {
+          "param": "Size",
+          "widget": "knob"
+        },
+        {
+          "param": "Decay",
+          "widget": "knob"
+        },
+        {
+          "param": "Diffusion",
+          "widget": "knob"
+        },
+        {
+          "param": "Pre-delay",
+          "widget": "knob"
+        },
+        {
+          "param": "Dry",
+          "widget": "knob"
+        },
+        {
+          "param": "Wet",
+          "widget": "knob"
+        },
+        {
+          "param": "Hold",
+          "widget": "switch"
+        },
+        {
+          "param": "Clear",
+          "widget": "switch"
+        }
+      ],
+      "background": "bg_plateau.png"
     },
     {
       "name": "TONE",
       "controls": [
-        { "param": "In Low Cut",   "widget": "knob" },
-        { "param": "In High Cut",  "widget": "knob" },
-        { "param": "Rev Low Cut",  "widget": "knob" },
-        { "param": "Rev High Cut", "widget": "knob" },
-
-        { "param": "In Diffuse",   "widget": "switch" },
-        { "param": "Tuned",        "widget": "switch" },
+        {
+          "param": "In Low Cut",
+          "widget": "knob"
+        },
+        {
+          "param": "In High Cut",
+          "widget": "knob"
+        },
+        {
+          "param": "Rev Low Cut",
+          "widget": "knob"
+        },
+        {
+          "param": "Rev High Cut",
+          "widget": "knob"
+        },
+        {
+          "param": "In Diffuse",
+          "widget": "switch"
+        },
+        {
+          "param": "Tuned",
+          "widget": "switch"
+        },
         "empty",
         "empty"
-      ]
+      ],
+      "background": "bg_plateau.png"
     },
     {
       "name": "MOD",
       "controls": [
-        { "param": "Mod Rate",  "widget": "knob" },
-        { "param": "Mod Shape", "widget": "knob", "polarity": "bipolar" },
-        { "param": "Mod Depth", "widget": "knob" },
+        {
+          "param": "Mod Rate",
+          "widget": "knob"
+        },
+        {
+          "param": "Mod Shape",
+          "widget": "knob",
+          "polarity": "bipolar"
+        },
+        {
+          "param": "Mod Depth",
+          "widget": "knob"
+        },
         "empty"
-      ]
+      ],
+      "background": "bg_plateau.png"
     }
   ]
 }
