@@ -41,16 +41,23 @@ int main() {
         {PlateauFx::P_DRY, 100.f, "100%"},      {PlateauFx::P_WET, 50.f, "50%"},
         {PlateauFx::P_PREDELAY, 250.f, "250 ms"}, {PlateauFx::P_DECAY, 50.f, "50%"},
         {PlateauFx::P_MOD_SHAPE, 0.f, "0%"},    {PlateauFx::P_MOD_SHAPE, 50.f, "+50%"}, {PlateauFx::P_MOD_SHAPE, -100.f, "-100%"},
-        {PlateauFx::P_IN_LOWCUT, 0.f, "440 Hz"}, {PlateauFx::P_IN_LOWCUT, 5.f, "Off"}, {PlateauFx::P_IN_LOWCUT, 10.f, "Off"},
-        {PlateauFx::P_IN_HIGHCUT, 0.f, "440 Hz"}, {PlateauFx::P_IN_HIGHCUT, 2.5f, "2.5 kHz"}, {PlateauFx::P_IN_HIGHCUT, 5.f, "Open"},
-        {PlateauFx::P_REV_LOWCUT, 2.5f, "78 Hz"}, {PlateauFx::P_REV_HIGHCUT, 10.f, "Open"},
+        {PlateauFx::P_IN_LOWCUT, 0.f, "440 Hz"}, {PlateauFx::P_IN_LOWCUT, 10.f, "Off"},
+        {PlateauFx::P_IN_HIGHCUT, 0.f, "440 Hz"}, {PlateauFx::P_IN_HIGHCUT, 10.f, "Open"},
+        {PlateauFx::P_REV_HIGHCUT, 10.f, "Open"},
+#if PLATEAU_FULL_TRAVEL
+        // whole throw: knob 0..10 spans pitch 5..0 (low cut) and 5..10 (high cut)
+        {PlateauFx::P_IN_LOWCUT, 5.f, "78 Hz"},  {PlateauFx::P_REV_LOWCUT, 2.5f, "185 Hz"},
+        {PlateauFx::P_IN_HIGHCUT, 5.f, "2.5 kHz"}, {PlateauFx::P_IN_HIGHCUT, 7.5f, "5.9 kHz"},
+        {PlateauFx::P_IN_LOWCUT, 9.9f, "14 Hz"},
+#else
+        // faithful: the upper half of each knob is dead
+        {PlateauFx::P_IN_LOWCUT, 5.f, "Off"},
+        {PlateauFx::P_IN_HIGHCUT, 2.5f, "2.5 kHz"}, {PlateauFx::P_IN_HIGHCUT, 5.f, "Open"},
+        {PlateauFx::P_REV_LOWCUT, 2.5f, "78 Hz"},
+#endif
     };
     for (const T& c : cases) {
         std::string got = text(c.idx, c.v);
-#if PLATEAU_FULL_TRAVEL_DAMP
-        if (c.idx == PlateauFx::P_IN_LOWCUT || c.idx == PlateauFx::P_IN_HIGHCUT ||
-            c.idx == PlateauFx::P_REV_LOWCUT || c.idx == PlateauFx::P_REV_HIGHCUT) continue;
-#endif
         CHECK(got == c.want, "%s at %g shows '%s', expected '%s'", PlateauFx::kParams[c.idx].key, c.v, got.c_str(), c.want);
     }
 

@@ -46,8 +46,7 @@ Three pages, each row of four is one Q-Link group:
 | TONE | In Low Cut, In High Cut, Rev Low Cut, Rev High Cut | In Diffuse, Tuned |
 | MOD  | Mod Rate, Mod Shape, Mod Depth | |
 
-`PARAMS.md` explains every parameter, including the quirks inherited from the Rack module (the damping
-knobs only act in their lower half; Hold fades over about 1 s; Clear is a switch: turn it on to empty the tank, off to re-arm).
+`PARAMS.md` explains every parameter, including the quirks inherited from the Rack module (Hold fades over about 1 s; Clear is a switch: turn it on to empty the tank, off to re-arm).
 
 ## Layout
 
@@ -70,7 +69,7 @@ Pass to the SDK build with `--define NAME=VALUE`.
 
 | Define | Default | Meaning |
 |--------|---------|---------|
-| `PLATEAU_FULL_TRAVEL_DAMP` | 0 | 1 = use the whole throw of the four damping knobs (Rack only uses the lower half). The value text follows. |
+| `PLATEAU_FULL_TRAVEL` | 1 | 1 = the four damping knobs and Decay use their whole throw and reach the same range Rack does without CV. 0 = Rack's exact knob mapping (upper half of the damping knobs dead). The value text follows. |
 | `PLATEAU_ANTI_DENORMAL` | 0 in the plugin | The SDK framework already flushes denormals around `process()`. The standalone engine defaults to 1; without either, a dying tail ran 26x slower on x86. |
 
 ## Tests
@@ -86,7 +85,7 @@ make sdk-test SDK=/path/to/mpc-plugin-builder-sdk-main          # plugin layer +
    `Plateau::process()` / `getParameters()` text and `Dattorro` from Valley, with only the VCV Rack base types stubbed.
    It and `PlateauFx` run 6 scenarios of 4 s (defaults, long/big/modulated, Tuned mode, dark and undiffused,
    Hold, Clear with mid-run parameter moves) at block sizes 128 and 37. Output must be **bit-identical**.
-2. **Behaviour and robustness** (`test/test_engine.cpp`, 55 checks): silence, decay, stereo, dry/wet, pre-delay timing,
+2. **Behaviour and robustness** (`test/test_engine.cpp`, 72 checks): silence, decay, stereo, dry/wet, pre-delay timing,
    Hold, Clear, `reset()`, in-place processing, a 30 s random-parameter fuzz, memory, CPU, denormal cost.
 3. **Plugin layer** (`test/test_plugin_mapping.cpp`): the friendly units (%, ms) map exactly onto the engine's
    ranges and defaults, and the value text (Hz, Off, Open) reads correctly.

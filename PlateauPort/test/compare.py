@@ -1,11 +1,13 @@
 import sys, numpy as np, glob, os
 a, b = sys.argv[1], sys.argv[2]
 tol = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
+only = sys.argv[4] if len(sys.argv) > 4 else None
 bad = 0
 for fa in sorted(glob.glob(os.path.join(a, '*.f32'))):
     fb = os.path.join(b, os.path.basename(fa))
     x = np.fromfile(fa, dtype='<f4'); y = np.fromfile(fb, dtype='<f4')
     name = os.path.basename(fa)[:-4]
+    if only and name != only: continue
     if x.shape != y.shape:
         print(f'FAIL {name}: length {x.shape} vs {y.shape}'); bad += 1; continue
     diff = int(np.count_nonzero(x != y))

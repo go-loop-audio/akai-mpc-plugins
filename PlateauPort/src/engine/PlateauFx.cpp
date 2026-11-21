@@ -39,7 +39,7 @@ const PlateauFx::ParamInfo PlateauFx::kParams[PlateauFx::NUM_PARAMS] = {
     {"in_highcut",    "Input high cut", 0.f,  10.f,    10.f,      false},
     {"size",          "Size",           0.f,  1.f,     0.5f,      false},
     {"diffusion",     "Diffusion",      0.f,  10.f,    10.f,      false},
-    {"decay",         "Decay",          0.1f, 0.9999f, 0.54995f,  false},
+    {"decay",         "Decay",          0.1f, 0.9999f, PLATEAU_DECAY_DEFAULT, false},
     {"rev_lowcut",    "Reverb low cut", 0.f,  10.f,    10.f,      false},
     {"rev_highcut",   "Reverb high cut",0.f,  10.f,    10.f,      false},
     {"mod_speed",     "Mod rate",       0.f,  1.f,     0.f,       false},
@@ -106,10 +106,24 @@ void PlateauFx::reset() {
     }
 }
 
+// Plateau::getParameters() computes the effective decay as
+//   clamp(rescale(cv, 0, 10, 0.1, 0.999) + knob, 0.1, 0.9999)
+// which at 0 V is clamp(knob + 0.1, 0.1, 0.9999): a 0.1 offset on a knob that
+// already starts at 0.1, so the top tenth of the knob is flat.
+float PlateauFx::decayEffective(float knob) {
+#if PLATEAU_FULL_TRAVEL
+    return clampf(knob, 0.1f, decayMax);
+#else
+    float d = rescalef(0.f, 0.f, 10.f, 0.1f, 0.999f);
+    d += knob;
+    return clampf(d, 0.1f, decayMax);
+#endif
+}
+
 // Plateau::getParameters() computes, per damping knob p (CV at 0 V):
 //   low cut : 10 - clamp(p + 5, 0, 10)       high cut : clamp(p + 5, 0, 10)
 float PlateauFx::dampPitch(int id, float p) {
-#if PLATEAU_FULL_TRAVEL_DAMP
+#if PLATEAU_FULL_TRAVEL
     return isLowCut(id) ? 5.f - p * 0.5f : 5.f + p * 0.5f;
 #else
     float v = 0.f;
@@ -138,9 +152,7 @@ void PlateauFx::deriveParams() {
 
     diffusion_ = clampf(params_[P_DIFFUSION], 0.f, 10.f);
 
-    decay_ = rescalef(0.f, 0.f, 10.f, 0.1f, 0.999f);
-    decay_ += params_[P_DECAY];
-    decay_ = clampf(decay_, 0.1f, decayMax);
+    decay_ = decayEffective(params_[P_DECAY]);
     decay_ = 1.f - decay_;
     decay_ = 1.f - decay_ * decay_;
 

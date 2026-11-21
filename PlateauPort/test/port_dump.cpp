@@ -13,6 +13,11 @@ int main(int argc, char** argv) {
     for (const Scenario& sc : makeScenarios()) {
         PlateauFx fx;
         for (int i = 0; i < N_PARAMS; ++i) fx.setParam(i, sc.params[i]);
+#ifdef DUMP_ENGINE_DEFAULTS
+        // Ignore the scenario's values and use the engine's own defaults: with the
+        // full-travel mapping these must sound like Rack's defaults.
+        for (int i = 0; i < N_PARAMS; ++i) fx.setParam(i, PlateauFx::kParams[i].def);
+#endif
 
         std::vector<float> inL(sc.length), inR(sc.length), outL(sc.length), outR(sc.length);
         uint32_t rng = 2463534242u;

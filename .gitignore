@@ -69,3 +69,6 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# MPC SDK downloaded tools (Zig compiler, host simulator)
+.sdk-tools/

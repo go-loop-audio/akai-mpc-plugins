@@ -43,6 +43,11 @@ public:
         return i;
     }
 
+    // Decay's default as a percentage of its knob range, so the default sound equals
+    // the Rack module's default whichever travel mode is built (about 61 % under
+    // full travel, 50 % in faithful mode).
+    static constexpr float kDecayDefaultPct = (PLATEAU_DECAY_DEFAULT - 0.1f) / (0.9999f - 0.1f) * 100.f;
+
     // The order of these parameters IS PlateauFx::Param (see PARAMS.md).
     // Once the plugin has shipped, only ever append. Plain values shown to the
     // user are friendlier than the engine's native Rack units; toEngine()
@@ -57,7 +62,7 @@ public:
         addParam(floatParam ("in_highcut",    "In High Cut",  0.f,  10.f,  10.f,   "",   1));
         addParam(floatParam ("size",          "Size",         0.f, 100.f,  50.f,   "%",  0));
         addParam(floatParam ("diffusion",     "Diffusion",    0.f, 100.f, 100.f,   "%",  0));
-        addParam(floatParam ("decay",         "Decay",        0.f, 100.f,  50.f,   "%",  0));
+        addParam(floatParam ("decay",         "Decay",        0.f, 100.f,  kDecayDefaultPct, "%", 0));
         addParam(floatParam ("rev_lowcut",    "Rev Low Cut",  0.f,  10.f,  10.f,   "",   1));
         addParam(floatParam ("rev_highcut",   "Rev High Cut", 0.f,  10.f,  10.f,   "",   1));
         addParam(floatParam ("mod_speed",     "Mod Rate",     0.f, 100.f,   0.f,   "%",  0));

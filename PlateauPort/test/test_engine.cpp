@@ -55,6 +55,39 @@ int main() {
         fx.setParam(99, 1.f); fx.setParam(-1, 1.f);   // out-of-range ids must be ignored, not crash
     }
 
+    printf("knob travel: every position matters, same range as Rack without CV\n");
+    {
+        using F = PlateauFx;
+        const int damp[4] = {F::P_IN_LOWCUT, F::P_IN_HIGHCUT, F::P_REV_LOWCUT, F::P_REV_HIGHCUT};
+#if PLATEAU_FULL_TRAVEL
+        for (int id : damp) {
+            // strictly monotonic over the whole throw: no dead zone
+            float prev = F::dampPitch(id, 0.f);
+            bool strict = true;
+            for (int k = 1; k <= 100; ++k) {
+                float v = F::dampPitch(id, k * 0.1f);
+                strict = strict && (F::isLowCut(id) ? v < prev : v > prev);
+                prev = v;
+            }
+            CHECK(strict, "%s has a dead zone", F::kParams[id].key);
+            CHECK(std::fabs(F::dampPitch(id, 0.f) - 5.f) < 1e-6f, "%s knob 0 should be 440 Hz", F::kParams[id].key);
+            CHECK(std::fabs(F::dampPitch(id, 10.f) - (F::isLowCut(id) ? 0.f : 10.f)) < 1e-6f, "%s knob 10 should be off/open", F::kParams[id].key);
+        }
+        float prev = F::decayEffective(0.1f); bool strict = true;
+        for (int k = 1; k <= 100; ++k) { float v = F::decayEffective(0.1f + k * 0.008999f); strict = strict && v > prev; prev = v; }
+        CHECK(strict, "decay has a dead zone");
+        CHECK(F::decayEffective(0.1f) == 0.1f && F::decayEffective(0.9999f) == 0.9999f, "decay ends");
+        // the default knob positions sound like Rack's default positions
+        CHECK(std::fabs(F::decayEffective(F::kParams[F::P_DECAY].def) - 0.64995f) < 1e-6f, "decay default effective value");
+#else
+        for (int id : damp) CHECK(F::dampPitch(id, 10.f) == (F::isLowCut(id) ? 0.f : 10.f), "faithful end value");
+        CHECK(F::decayEffective(0.9f) == 0.9999f, "faithful decay offset");
+#endif
+        // Rack default (faithful knob 10, effective pitch 0/10) equals ours at the default knob
+        CHECK(F::dampPitch(F::P_IN_LOWCUT, F::kParams[F::P_IN_LOWCUT].def) == 0.f, "default in low cut is off");
+        CHECK(F::dampPitch(F::P_IN_HIGHCUT, F::kParams[F::P_IN_HIGHCUT].def) == 10.f, "default in high cut is open");
+    }
+
     printf("silence in -> silence out\n");
     {
         PlateauFx fx; Run o = run(fx, SR, 0);

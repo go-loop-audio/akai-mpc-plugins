@@ -22,13 +22,29 @@
 #include "../Plateau/Dattorro.hpp"
 #include "../dsp/modulation/LinearEnvelope.hpp"
 
-// Plateau's four damping knobs span 0..10 but the Rack module adds 5 and
-// clamps (see Plateau::getParameters), so half of each knob's travel does
-// nothing: low-cut knobs only act below the middle, high-cut only below it too.
-//   0 (default): faithful - the same knob position sounds the same as in Rack.
-//   1          : use the whole knob throw for the same set of cutoffs.
-#ifndef PLATEAU_FULL_TRAVEL_DAMP
-#define PLATEAU_FULL_TRAVEL_DAMP 0
+// Knob travel. In the Rack module the four damping knobs and Decay stop changing
+// before the knob reaches its end, because a CV offset is built into their maths
+// (see Plateau::getParameters): the damping knobs add 5 to the knob and clamp,
+// and Decay adds 0.1. Rack has CV inputs to use that headroom; a hardware knob
+// has none, so the dead part of the travel is simply wasted.
+//   1 (default): full travel. Every knob does something over its whole throw and
+//                reaches the same extremes the Rack knob reaches without CV:
+//                low cuts 440 Hz -> off, high cuts 440 Hz -> open, Decay from
+//                its declared minimum (0.1) to its maximum (0.9999).
+//                The default settings sound the same as Rack's defaults.
+//   0          : faithful to Rack. The same knob position sounds the same as in
+//                Rack. This is what the tests compare against Valley's code.
+#ifndef PLATEAU_FULL_TRAVEL
+#define PLATEAU_FULL_TRAVEL 1
+#endif
+
+// Effective decay setting at the default (what the Rack module's default knob
+// position produces: knob 0.54995 + its 0.1 offset). Under full travel the knob
+// IS the effective value, so the default knob value is 0.64995.
+#if PLATEAU_FULL_TRAVEL
+#define PLATEAU_DECAY_DEFAULT 0.64995f
+#else
+#define PLATEAU_DECAY_DEFAULT 0.54995f
 #endif
 
 // A dying reverb tail passes through the denormal range (< 1e-308 in double),
@@ -90,6 +106,10 @@ public:
     // by hosts that want to show the cutoff in Hz.
     static float dampPitch(int id, float nativeValue);
     static bool  isLowCut(int id) { return id == P_IN_LOWCUT || id == P_REV_LOWCUT; }
+
+    // Effective decay setting (0.1..0.9999) for a native P_DECAY value. The
+    // tank's loop gain is 1 - (1 - effective)^2.
+    static float decayEffective(float nativeValue);
 
     // Process n frames. Input and output buffers may alias.
     void process(const float* inL, const float* inR,
