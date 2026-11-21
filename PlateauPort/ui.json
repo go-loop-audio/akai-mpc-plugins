@@ -1,0 +1,43 @@
+{
+  "kit": "cyan",
+  "qlinkGroups": "rows",
+  "pages": [
+    {
+      "name": "MAIN",
+      "controls": [
+        { "param": "Size",      "widget": "knob" },
+        { "param": "Decay",     "widget": "knob" },
+        { "param": "Diffusion", "widget": "knob" },
+        { "param": "Pre-delay", "widget": "knob" },
+
+        { "param": "Dry",       "widget": "fader" },
+        { "param": "Wet",       "widget": "fader" },
+        { "param": "Hold",      "widget": "switch" },
+        { "param": "Clear",     "widget": "switch" }
+      ]
+    },
+    {
+      "name": "TONE",
+      "controls": [
+        { "param": "In Low Cut",   "widget": "knob" },
+        { "param": "In High Cut",  "widget": "knob" },
+        { "param": "Rev Low Cut",  "widget": "knob" },
+        { "param": "Rev High Cut", "widget": "knob" },
+
+        { "param": "In Diffuse",   "widget": "switch" },
+        { "param": "Tuned",        "widget": "switch" },
+        "empty",
+        "empty"
+      ]
+    },
+    {
+      "name": "MOD",
+      "controls": [
+        { "param": "Mod Rate",  "widget": "knob" },
+        { "param": "Mod Shape", "widget": "knob", "polarity": "bipolar" },
+        { "param": "Mod Depth", "widget": "knob" },
+        "empty"
+      ]
+    }
+  ]
+}

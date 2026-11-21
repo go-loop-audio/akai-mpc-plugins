@@ -1,0 +1,17 @@
+{
+  "name": "GLA Plateau",
+  "manufacturer": "Go Loop Audio",
+  "version": "1.0.0",
+  "format": "vst2",
+  "kind": "effect",
+  "uid": "GLPt",
+  "numInputs": 2,
+  "numOutputs": 2,
+  "category": "Reverb",
+  "file32": "VST/gla-plateau-arm32.so",
+  "file64": "VST/gla-plateau-arm64.so",
+  "description": "Plate reverb based on Plateau by Valley Audio Soft (Dale Johnson), after Dattorro (1997): pre-delay, input and tank damping, modulated tank, Tuned mode, Hold and Clear.",
+  "author": "Go Loop Audio. Based on Plateau by Dale Johnson (Valley Audio Soft)",
+  "url": "https://github.com/ValleyAudio/ValleyRackFree",
+  "license": "GPL-3.0-or-later"
+}

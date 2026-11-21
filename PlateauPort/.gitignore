@@ -1,0 +1,4 @@
+# build output (SDK builds, test binaries, host-sim wav files)
+build/
+*.wav
+.DS_Store
