@@ -8,7 +8,7 @@ Reverberator and Other Filters", J. Audio Eng. Soc. 45(9), 660-684 (1997).
 
 - `src/Plateau/`, `src/dsp/`, `src/utilities/` are copied from ValleyRackFree.
   They are unchanged except for the one patch listed in PATCHES.md.
-  `upstream-ref/` is an untouched copy used by the tests.
+  `upstream-ref/` is a copy used by the tests; it is untouched except that the VCV Rack panel widget part of `Plateau.cpp.txt` was removed.
 - `src/engine/` reproduces the parameter handling of ValleyRackFree's
   `Plateau::getParameters()` / `Plateau::process()` without the VCV Rack parts.
 - Original copyright and licence headers are kept in every copied file.
@@ -40,7 +40,6 @@ framework (`framework/mpc_plugin.h` and friends) is compiled into the plugin bin
 
 ## Artwork
 
-`skin-art/` and the knob and background images in `assets/` and `skins/` are derived from the panel and Rogan
-knob artwork in ValleyRackFree (Valley Audio Soft, Dale Johnson, GPL-3.0-or-later; the repository carries no
-separate artwork licence). The "Valley" wordmark is replaced by "Go Loop Audio". The wordmark and background
-text are set in Inter Medium (SIL Open Font License 1.1) and converted to images, so no font is shipped.
+The skin's knobs and background (`assets/`, `skins/`) are original artwork drawn by `tools/make_skin.py`. They use
+only the colour scheme of the Valley Plateau panel (white, green, blue, red); no Valley graphics are included.
+The branding text is set in Inter Medium (SIL Open Font License 1.1) and converted to images, so no font is shipped.

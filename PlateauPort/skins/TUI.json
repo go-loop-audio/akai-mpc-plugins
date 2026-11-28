@@ -630,12 +630,12 @@
                             "version": 1,
                             "focussed": {
                                 "version": 1,
-                                "colour": "ff282828",
+                                "colour": "ff25262a",
                                 "image": ""
                             },
                             "unfocussed": {
                                 "version": 1,
-                                "colour": "ff282828",
+                                "colour": "ff25262a",
                                 "image": ""
                             }
                         },
@@ -692,12 +692,12 @@
                             "version": 1,
                             "focussed": {
                                 "version": 1,
-                                "colour": "ff282828",
+                                "colour": "ff25262a",
                                 "image": ""
                             },
                             "unfocussed": {
                                 "version": 1,
-                                "colour": "ff282828",
+                                "colour": "ff25262a",
                                 "image": ""
                             }
                         },
@@ -754,12 +754,12 @@
                             "version": 1,
                             "focussed": {
                                 "version": 1,
-                                "colour": "ff282828",
+                                "colour": "ff25262a",
                                 "image": ""
                             },
                             "unfocussed": {
                                 "version": 1,
-                                "colour": "ff282828",
+                                "colour": "ff25262a",
                                 "image": ""
                             }
                         },
@@ -1583,7 +1583,7 @@
                                     "data": {
                                         "version": 2,
                                         "knobType": "FilmStrip",
-                                        "filmStrip": "knob_red.png",
+                                        "filmStrip": "knob_red_bi.png",
                                         "numFrames": 127,
                                         "invert": false,
                                         "handleName": "Data"
@@ -1728,12 +1728,12 @@
                         "version": 1,
                         "focussed": {
                             "version": 1,
-                            "colour": "ff282828",
+                            "colour": "ff25262a",
                             "image": "bg_plateau.png"
                         },
                         "unfocussed": {
                             "version": 1,
-                            "colour": "ff282828",
+                            "colour": "ff25262a",
                             "image": "bg_plateau.png"
                         }
                     },
@@ -1991,12 +1991,12 @@
                         "version": 1,
                         "focussed": {
                             "version": 1,
-                            "colour": "ff282828",
+                            "colour": "ff25262a",
                             "image": "bg_plateau.png"
                         },
                         "unfocussed": {
                             "version": 1,
-                            "colour": "ff282828",
+                            "colour": "ff25262a",
                             "image": "bg_plateau.png"
                         }
                     },
@@ -2196,12 +2196,12 @@
                         "version": 1,
                         "focussed": {
                             "version": 1,
-                            "colour": "ff282828",
+                            "colour": "ff25262a",
                             "image": "bg_plateau.png"
                         },
                         "unfocussed": {
                             "version": 1,
-                            "colour": "ff282828",
+                            "colour": "ff25262a",
                             "image": "bg_plateau.png"
                         }
                     },

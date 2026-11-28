@@ -53,14 +53,15 @@ Three pages, each row of four is one Q-Link group:
 `skins/` holds a hand-written skin, and because it exists `build.py` copies it verbatim and does **not** run
 `gen_ui.py`. It is generated, not edited by hand: `ui.json` (layout) -> `tools/make_skin.py` -> `skins/` + `assets/`.
 The result is committed, so a normal build needs none of the tool's dependencies. To regenerate after editing
-`ui.json` or the art (needs Pillow, `rsvg-convert`, and `build/params.json` from `make sdk-test`):
+`ui.json` or the art (needs Pillow and `build/params.json` from `make sdk-test`):
 
 ```
 python3 tools/make_skin.py --sdk /Users/simonbosley/Programming/GoLoopAudio/akai-mpc-plugins/mpc-plugin-builder-sdk-main
 ```
 
-Look: Valley's panel grey, Rogan knobs from ValleyRackFree's artwork (`skin-art/rogan/`) in Valley's colour code
-(white levels, green filters, blue space, red modulation), "GLA Plateau" header and "Go Loop Audio" footer.
+Look: a dark grey panel, original knob artwork drawn by `tools/make_skin.py` (a value arc, a coloured cap and a
+pointer) using the colour scheme of the Valley Plateau panel (white levels, green filters, blue space, red
+modulation), and the "GLA Plateau" / "Go Loop Audio" branding. No Valley graphics are used in the skin.
 **Clear is a normal switch** for now: turn it on to empty the tank, off to re-arm. A momentary version
 (`ResetOnGestureEnd` in the skin) was tried and did not work on the One+; it is parked for later, see `MOMENTARY` in `tools/make_skin.py`.
 
@@ -69,11 +70,10 @@ Look: Valley's panel grey, Rogan knobs from ValleyRackFree's artwork (`skin-art/
 ```
 plugin.json, ui.json                  SDK manifest and touch-screen layout
 skins/, assets/, tools/make_skin.py    the generated skin, its source images, the generator (see Skin)
-skin-art/                             panel and knob artwork derived from ValleyRackFree
 src/PlateauPlugin.cpp                 the plugin; the only .cpp directly in src/ (the SDK compiles just those)
 src/engine/PlateauFx.{hpp,cpp}        host-neutral engine
 src/Plateau, src/dsp, src/utilities   Valley DSP (unchanged except PATCHES.md)
-upstream-ref/                         untouched Valley copy + extracted Plateau code, for the tests
+upstream-ref/                         Valley copy (Rack panel widget removed) + extracted Plateau code, for the tests
 test/, Makefile                       tests
 PARAMS.md, PATCHES.md, NOTICE.md      docs
 ```
